@@ -18,6 +18,17 @@ My approach: understand the dependencies, isolate the fault, test the fix, and l
 
 ### Homelab
 
-A PS4 running Linux as a Podman host with a boot guard against storage corruption, a native macOS admin dashboard, and scripted updates and repo syncs across the machines.
+Self-hosted on 5G: a Linux gateway publishes everything through Cloudflare Tunnel behind Cloudflare Access, and runs AdGuard Home + Unbound, nftables, Samba, and a WAN watchdog that reboots the router on outages.
+
+- **Wake AI dashboard** — Python web app on the gateway: wakes the Mac mini M4 AI server (Ollama, Open WebUI) on demand, live telemetry, service and Claude session controls, backups. Hash-checked releases with automatic rollback.
+- **PS4 Cloud dashboard** — PS4 on Linux running Nextcloud, PostgreSQL and Redis as Podman Quadlets; telemetry, maintenance mode, scheduled power actions, backups, and a boot guard against storage corruption.
+- **PS5 LLM server** — PS5LM-memfix on a PS5 Fat, used from Open WebUI.
+- **Sysadmin ToolZz** — native SwiftUI macOS dashboard for system health, cleanup and DNS, controlling the above over SSH.
+
+### Toolbox
+
+**Systems:** Linux (systemd, nftables, Podman) · macOS (launchd, configuration profiles) · DNS and home networking · Cloudflare Tunnel and Access<br>
+**Languages:** Python · Shell · Swift · C/C++ · Lua · Go<br>
+**Tools:** Git and GitHub · llama.cpp and Vulkan · UE4SS · Ghidra
 
 <sub>AI-assisted development. Hands-on integration and testing. Credit to the projects these builds stand on.</sub>
