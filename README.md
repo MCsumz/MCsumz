@@ -23,7 +23,24 @@ Self-hosted on 5G: a Linux gateway publishes everything through Cloudflare Tunne
 - **Wake AI dashboard** — Python web app on the gateway: wakes the Mac mini M4 AI server (Ollama, Open WebUI) on demand, live telemetry, service and Claude session controls, backups. Hash-checked releases with automatic rollback.
 - **PS4 Cloud dashboard** — PS4 on Linux running Nextcloud, PostgreSQL and Redis as Podman Quadlets; telemetry, maintenance mode, scheduled power actions, backups, and a boot guard against storage corruption.
 - **PS5 LLM server** — PS5LM-memfix on a PS5 Fat, used from Open WebUI.
+- **Open Terminal sandbox** — a Lima Linux VM on the Mac that gives Open WebUI a sandboxed terminal and file tools; guest code is hash-checked at boot.
 - **Sysadmin ToolZz** — native SwiftUI macOS dashboard for system health, cleanup and DNS, controlling the above over SSH.
+
+<p>
+  <img src="assets/wake-ai.png" width="49%" alt="Wake AI dashboard: Mac mini CPU, memory, storage and AI service status">
+  <img src="assets/ps4-cloud.png" width="49%" alt="PS4 Cloud dashboard: APU, thermal, memory, power and disk activity">
+</p>
+
+### Selected fixes
+
+- **DNSSEC SERVFAILs** — traced to an on-path responder beyond the LAN answering outbound UDP DNS without signatures; Unbound now forwards upstream over TCP.
+- **5G router hangs** — the router stopped routing while staying attached; the WAN watchdog logs outages and reboots it through its own API, rate-limited.
+- **Edge "DNS not resolved" after sleep** — ~3,000 sleep/wake cycles a day left Edge's built-in resolver stale; a configuration profile hands DNS back to macOS.
+- **Remote Claude sessions killed by CLI updates** — each auto-update re-triggered a macOS privacy prompt nobody was there to answer; updates now run on site through a helper that gets the new version its permission first.
+
+### Reverse engineering
+
+AltTab's window-ordering logic rebuilt from the binary with Ghidra as a tested Swift package with a written spec.
 
 ### Toolbox
 
