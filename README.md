@@ -36,7 +36,7 @@ Self-hosted on 5G: a Linux gateway publishes everything through Cloudflare Tunne
 
 - **DNS failures on 5G** — DNSSEC SERVFAILs, then seven evening outages of 30–90 s within about 20 minutes: the carrier transparently intercepts all outbound UDP DNS, answering without signatures and faltering under load. AdGuard now sends all upstream DNS encrypted over DoH/DoT, past the interception.
 - **5G router hangs** — the router stopped routing while staying attached; the WAN watchdog probes every 30 s, logs each outage with the radio state, tells DNS-only drops from full outages, and reboots the router through its own API after 4 minutes, rate-limited.
-- **Edge "DNS not resolved" after sleep** — ~1,500 sleep/wake cycles a day left Edge's built-in resolver stale; a configuration profile hands DNS back to macOS.
+- **Edge "DNS not resolved" after sleep** — ~1,500 sleep/wake cycles a day left Edge's built-in resolver stale; a [configuration profile](https://github.com/MCsumz/edge-macos-dns-profile) hands DNS back to macOS.
 - **Remote Claude sessions killed by CLI updates** — each auto-update re-triggered a macOS privacy prompt nobody was there to answer; updates now run on site through a helper that gets the new version its permission first.
 
 ### Reverse engineering
