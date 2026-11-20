@@ -9,7 +9,7 @@ My approach: understand the dependencies, isolate the fault, test the fix, and l
 ### On the bench
 
 - **[PS5LM-memfix](https://github.com/MCsumz/PS5LM-memfix)** — fixes for [cobanov’s PS5LM](https://github.com/cobanov/PS5LM), the LLM server for jailbroken PS5s: long chats no longer run out of memory (0.75 GiB still free after a 47.9k-token prompt), agent tool calls keep their connection, and a Qwen3.5 follow-up takes seconds instead of minutes. Tested on a PS5 Fat with Open WebUI. [Builds →](https://github.com/MCsumz/PS5LM-memfix/releases/latest)
-- **[WAN watchdog](https://github.com/MCsumz/wan-watchdog)** — catches a 5G router that stays attached but stops routing: probes every 30 s over DoH/DoT and TCP, logs each outage with the radio state, tells DNS-only drops from full outages, and reboots the router through its own API after 4 minutes, rate-limited. Python standard library only, 12 offline tests, running on my gateway since 17 Nov.
+- **[WAN watchdog](https://github.com/MCsumz/wan-watchdog)** — catches a 5G router that stays attached but stops routing: probes every 30 s over DoH/DoT and TCP, logs each outage with the radio state, tells stalls (connections open, no data) from full outages, and reboots the router through its own API after 2 minutes, rate-limited. Python standard library only, 12 offline tests, running on my gateway since 17 Nov.
 - **[LiS Remastered FreeCam](https://github.com/MCsumz/LiS-Remastered-FreeCam)** — UE4SS camera controls for keyboard and Xbox controller. Packaged, documented, and tested in-game. [Build →](https://github.com/MCsumz/LiS-Remastered-FreeCam/releases/latest)
 
 ### Upstream
@@ -34,8 +34,8 @@ Self-hosted on 5G: a Linux gateway publishes everything through Cloudflare Tunne
 
 ### Selected fixes
 
-- **DNS failures on 5G** — DNSSEC SERVFAILs, then seven evening outages of 30–90 s within about 20 minutes: the carrier transparently intercepts all outbound UDP DNS, answering without signatures and faltering under load. AdGuard now sends all upstream DNS encrypted over DoH/DoT, past the interception.
-- **5G router hangs** — the router stopped routing while staying attached; the WAN watchdog probes every 30 s, logs each outage with the radio state, tells DNS-only drops from full outages, and reboots the router through its own API after 4 minutes, rate-limited.
+- **DNSSEC failures on 5G** — SERVFAILs traced to the carrier transparently intercepting all outbound UDP DNS and answering without signatures. AdGuard now sends all upstream DNS encrypted over DoH/DoT, past the interception.
+- **Evening 5G stalls** — the router stays attached with a good signal, but data stops flowing, always between about 17:30 and 22:30; a data reconnect doesn't help, only a reboot that re-registers with the network does. The WAN watchdog probes every 30 s, logs each stall with the radio state as evidence for the carrier, and reboots the router through its own API after 2 minutes, rate-limited.
 - **Edge "DNS not resolved" after sleep** — ~1,500 sleep/wake cycles a day left Edge's built-in resolver stale; a [configuration profile](https://github.com/MCsumz/edge-macos-dns-profile) hands DNS back to macOS.
 - **Remote Claude sessions killed by CLI updates** — each auto-update re-triggered a macOS privacy prompt nobody was there to answer; updates now run on site through a helper that gets the new version its permission first.
 
