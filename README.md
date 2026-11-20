@@ -29,7 +29,7 @@ Self-hosted on 5G: a Linux gateway publishes everything through Cloudflare Tunne
 
 <p>
   <img src="assets/wake-ai.png" width="49%" align="top" alt="Wake AI dashboard: Mac mini CPU and core activity, memory, GPU, storage, network and AI service status">
-  <img src="assets/ps4-cloud.png" width="49%" align="top" alt="PS4 Cloud dashboard (simulated data): APU, thermal, memory, power and cost gauges, network and disk activity">
+  <img src="assets/ps4-cloud.png" width="49%" align="top" alt="PS4 Cloud dashboard: APU, thermal, memory, power and cost gauges, network and disk activity">
 </p>
 
 ### Selected fixes
