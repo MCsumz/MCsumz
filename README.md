@@ -18,7 +18,7 @@ My approach: understand the dependencies, isolate the fault, test the fix, and l
 
 ### Homelab
 
-Self-hosted on 5G: a Linux gateway publishes everything through Cloudflare Tunnel behind Cloudflare Access, and runs AdGuard Home + Unbound, nftables, Samba, and a WAN watchdog that reboots the router on outages.
+Self-hosted on 5G: a Linux gateway publishes everything through Cloudflare Tunnel behind Cloudflare Access, and runs AdGuard Home with encrypted upstream DNS (DoH/DoT), nftables, Samba, and a WAN watchdog that reboots the router on outages.
 
 - **Wake AI dashboard** — Python web app on the gateway: wakes the Mac mini M4 AI server (Ollama, Open WebUI) on demand, live telemetry, service and Claude session controls, backups. Hash-checked releases with automatic rollback.
 - **PS4 Cloud dashboard** — PS4 on Linux running Nextcloud, PostgreSQL and Redis as Podman Quadlets; telemetry, maintenance mode, scheduled power actions, backups, and a boot guard against storage corruption.
@@ -33,9 +33,9 @@ Self-hosted on 5G: a Linux gateway publishes everything through Cloudflare Tunne
 
 ### Selected fixes
 
-- **DNSSEC SERVFAILs** — traced to an on-path responder beyond the LAN answering outbound UDP DNS without signatures; Unbound now forwards upstream over TCP.
-- **5G router hangs** — the router stopped routing while staying attached; the WAN watchdog logs outages and reboots it through its own API, rate-limited.
-- **Edge "DNS not resolved" after sleep** — ~3,000 sleep/wake cycles a day left Edge's built-in resolver stale; a configuration profile hands DNS back to macOS.
+- **DNS failures on 5G** — DNSSEC SERVFAILs, then seven evening outages of 30–90 s within about 20 minutes: the carrier transparently intercepts all outbound UDP DNS, answering without signatures and faltering under load. AdGuard now sends all upstream DNS encrypted over DoH/DoT, past the interception.
+- **5G router hangs** — the router stopped routing while staying attached; the WAN watchdog probes every 30 s, logs each outage with the radio state, tells DNS-only drops from full outages, and reboots the router through its own API after 4 minutes, rate-limited.
+- **Edge "DNS not resolved" after sleep** — ~1,500 sleep/wake cycles a day left Edge's built-in resolver stale; a configuration profile hands DNS back to macOS.
 - **Remote Claude sessions killed by CLI updates** — each auto-update re-triggered a macOS privacy prompt nobody was there to answer; updates now run on site through a helper that gets the new version its permission first.
 
 ### Reverse engineering
