@@ -12,6 +12,7 @@ My approach: understand the dependencies, isolate the fault, test the fix, and l
 - **[WAN watchdog](https://github.com/MCsumz/wan-watchdog)** — catches a 5G router that stays attached but stops routing: probes over DoH/DoT and TCP every 30 s, logs each outage with the radio state, and reboots the router through its own API, rate-limited. Stdlib Python, 12 tests, on my gateway since 17 Nov. [Release →](https://github.com/MCsumz/wan-watchdog/releases/latest)
 - **[Claude remote sessions](https://github.com/MCsumz/claude-remote-sessions)** — keeps every Code chat of the Claude desktop app reachable from my phone as a background session with Remote Control, and updates the CLI without breaking them. Stdlib Python, 79 tests, in daily use. [Release →](https://github.com/MCsumz/claude-remote-sessions/releases/latest)
 - **[Podman storage guard](https://github.com/MCsumz/podman-storage-guard)** — boot guard for rootless Podman on unjournaled storage: after an abrupt power-off it checks Podman's storage and Redis data, takes a verified backup, then repairs in stages up to a rebuild from pinned digests. Built after real corruption on my PS4 server; 32 tests. [Release →](https://github.com/MCsumz/podman-storage-guard/releases/latest)
+- **[macOS tools](https://github.com/MCsumz/macos-tools)** — small Mac fixes, each with its own release: `purgeable` shows and frees the disk space macOS keeps as "purgeable" through its own CacheDelete service (3.6 GB in 9 s on my Mac mini), plus the Edge DNS profile below. One Python file, no installs; 15 tests. [Releases →](https://github.com/MCsumz/macos-tools/releases)
 - **[LiS Remastered FreeCam](https://github.com/MCsumz/LiS-Remastered-FreeCam)** — UE4SS camera controls for keyboard and Xbox controller. Packaged, documented, and tested in-game. [Build →](https://github.com/MCsumz/LiS-Remastered-FreeCam/releases/latest)
 
 ### Upstream
@@ -38,7 +39,7 @@ Self-hosted on 5G: a Linux gateway publishes everything through Cloudflare Tunne
 
 - **DNSSEC failures on 5G** — SERVFAILs traced to the carrier transparently intercepting all outbound UDP DNS and answering without signatures. AdGuard now sends all upstream DNS encrypted over DoH/DoT, past the interception.
 - **Evening 5G stalls** — the router stays attached with a good signal but stops passing data, always in the evening, and only a full reboot helps; the [WAN watchdog](https://github.com/MCsumz/wan-watchdog) logs each stall as evidence for the carrier and reboots the router.
-- **Edge "DNS not resolved" after sleep** — ~1,500 sleep/wake cycles a day left Edge's built-in resolver stale; a [configuration profile](https://github.com/MCsumz/edge-macos-dns-profile) hands DNS back to macOS.
+- **Edge "DNS not resolved" after sleep** — ~1,500 sleep/wake cycles a day left Edge's built-in resolver stale; a [configuration profile](https://github.com/MCsumz/macos-tools/tree/main/edge-dns-profile) hands DNS back to macOS.
 - **Remote Claude sessions killed by CLI updates** — each auto-update re-triggered a macOS privacy prompt nobody was there to answer; the [updater](https://github.com/MCsumz/claude-remote-sessions) now gets the new version its permission first.
 
 ### Reverse engineering
