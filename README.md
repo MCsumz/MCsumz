@@ -8,7 +8,7 @@ My approach: understand the dependencies, isolate the fault, test the fix, and l
 
 ### On the bench
 
-- **[PS5LM-memfix](https://github.com/MCsumz/PS5LM-memfix)** — fixes for [cobanov’s PS5LM](https://github.com/cobanov/PS5LM), the LLM server for jailbroken PS5s: long chats no longer run out of memory (0.75 GiB still free after a 47.9k-token prompt), agent tool calls keep their connection, and a Qwen3.5 follow-up takes seconds instead of minutes. Tested on a PS5 Fat with Open WebUI. [Builds →](https://github.com/MCsumz/PS5LM-memfix/releases/latest)
+- **[PS5LM-memfix](https://github.com/MCsumz/PS5LM-memfix)** — fixes for [cobanov’s PS5LM](https://github.com/cobanov/PS5LM), the LLM server for jailbroken PS5s: long chats no longer run out of memory (0.75 GiB still free after a 47.9k-token prompt), agent tool calls keep their connection, and a Qwen3.5 follow-up takes seconds instead of minutes. Tested on a PS5 Fat and a PS5 Pro with Open WebUI, 11 models compared; most of the fixes are now in PS5LM itself. [Builds →](https://github.com/MCsumz/PS5LM-memfix/releases/latest)
 - **[ONT+](https://github.com/MCsumz/ONT-Plus)** — my plus edition of [OpenNutriTracker](https://github.com/simonoppowa/OpenNutriTracker), the open-source Flutter calorie tracker: swipe Home through past and planned days, sync two phones (Android ↔ iPhone) by QR code over the local network with an encrypted three-way merge that carries edits and deletions, an all-inclusive backup, photo quick add, swipe-to-delete, drag foods between meals and full-screen editing. Fixed upstream's move on a past day debiting today's totals, and made refreshes and photo lists smoother. 3,600+ tests; signed Android APK and iOS IPA. [Release →](https://github.com/MCsumz/ONT-Plus/releases/latest)
 - **[WAN watchdog](https://github.com/MCsumz/wan-watchdog)** — catches a 5G router that stays attached but stops routing: probes over DoH/DoT and TCP every 30 s, logs each outage with the radio state, and reboots the router through its own API, rate-limited. Stdlib Python, 12 tests, on my gateway since 17 Nov. [Release →](https://github.com/MCsumz/wan-watchdog/releases/latest)
 - **[Claude remote sessions](https://github.com/MCsumz/claude-remote-sessions)** — keeps every Code chat of the Claude desktop app reachable from my phone as a background session with Remote Control, and updates the CLI without breaking them. Stdlib Python, 79 tests, in daily use. [Release →](https://github.com/MCsumz/claude-remote-sessions/releases/latest)
@@ -18,8 +18,11 @@ My approach: understand the dependencies, isolate the fault, test the fix, and l
 
 ### Upstream
 
-- **Merged:** [cobanov/PS5LM#88](https://github.com/cobanov/PS5LM/pull/88) — Qwen3.5 keeps earlier turns’ thinking, so a new message only appends instead of reprocessing the whole chat.
-- **Offered:** [cobanov/PS5LM#98](https://github.com/cobanov/PS5LM/issues/98) — three more memfix fixes (media marker, streamed keep-alive, flash-attention scratch at load), each tested on the console.
+Contributing to [cobanov/PS5LM](https://github.com/cobanov/PS5LM):
+
+- **Merged:** [#88](https://github.com/cobanov/PS5LM/pull/88) — Qwen3.5 keeps earlier turns’ thinking, so a new message only appends instead of reprocessing the whole chat · [#112](https://github.com/cobanov/PS5LM/pull/112) — a chat no longer breaks once a tool reads the media marker · [#116](https://github.com/cobanov/PS5LM/pull/116) — Suggested downloads fetched from the commit their files are pinned at, so a re-upload on Hugging Face no longer fails the checksum.
+- **In review:** [#114](https://github.com/cobanov/PS5LM/pull/114) — a model gets only a vision projector whose width fits it · [#113](https://github.com/cobanov/PS5LM/pull/113) — a keep-alive test on four endpoints.
+- **Found and tested:** [11 models on a PS5 Fat and Pro](https://github.com/MCsumz/PS5LM-memfix/blob/main/docs/MODEL-TESTS.md); issues [#105](https://github.com/cobanov/PS5LM/issues/105)–[#107](https://github.com/cobanov/PS5LM/issues/107) and [#122](https://github.com/cobanov/PS5LM/issues/122); [console checks](https://github.com/MCsumz/PS5LM-memfix/blob/main/docs/UPSTREAM-TESTS.md) of unreleased `main` and others’ PRs, e.g. [#117](https://github.com/cobanov/PS5LM/pull/117)’s hybrid planner: Nemotron Nano 9B at 64k now plans a q8_0 cache in 7.6 GiB instead of q4_0 in 11.0.
 
 ### Homelab
 
@@ -27,7 +30,7 @@ Self-hosted on 5G: a Linux gateway publishes everything through Cloudflare Tunne
 
 - **Wake AI dashboard** — Python web app on the gateway: wakes the Mac mini M4 AI server (Ollama, Open WebUI) on demand, live telemetry, service and [Claude session](https://github.com/MCsumz/claude-remote-sessions) controls, backups. Hash-checked releases with automatic rollback.
 - **PS4 Cloud dashboard** — PS4 on Linux running Nextcloud, PostgreSQL and Redis as Podman Quadlets; telemetry, maintenance mode, scheduled power actions, backups, and a [boot guard](https://github.com/MCsumz/podman-storage-guard) against storage corruption.
-- **PS5 LLM server** — PS5LM-memfix on a PS5 Fat, used from Open WebUI.
+- **PS5 LLM servers** — PS5LM on a PS5 Fat and a PS5 Pro, used from Open WebUI and as the test bench for upstream PRs.
 - **Open Terminal sandbox** — a Lima Linux VM on the Mac that gives Open WebUI a sandboxed terminal and file tools; guest code is hash-checked at boot.
 - **Sysadmin ToolZz** — native SwiftUI macOS dashboard for system health, cleanup and DNS, controlling the above over SSH.
 
