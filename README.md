@@ -35,8 +35,9 @@ Self-hosted on 5G: a Linux gateway publishes everything through Cloudflare Tunne
 - **Sysadmin ToolZz** — native SwiftUI macOS dashboard for system health, cleanup and DNS, controlling the above over SSH.
 
 <p>
-  <img src="assets/wake-ai.png" width="49%" align="top" alt="Wake AI dashboard: Mac mini CPU and core activity, memory, GPU, storage, network and AI service status, and the PS5 and PS5 Pro AI servers side by side">
-  <img src="assets/ps4-cloud.png" width="49%" align="top" alt="PS4 Cloud dashboard: APU, thermal, memory, power and cost gauges, network and disk activity">
+  <img src="assets/wake-ai.png" width="41%" align="top" alt="Wake AI dashboard: Mac mini CPU and core activity, memory, GPU, storage, network and AI service status, and the PS5 and PS5 Pro AI servers side by side">
+  <img src="assets/ps4-cloud.png" width="41%" align="top" alt="PS4 Cloud dashboard, live: Nextcloud operational, APU, thermal, memory, power and cost gauges, network and disk activity, Nextcloud 35.0.3 services, storage health and a verified backup">
+  <img src="assets/ps4-cloud-phone.png" width="16%" align="top" alt="PS4 Cloud dashboard on a phone: Nextcloud operational, APU utilization, thermal, memory and power gauges">
 </p>
 
 ### Selected fixes
